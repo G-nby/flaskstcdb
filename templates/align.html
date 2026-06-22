@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>align</title>
+    <link rel="stylesheet" href="static/css/bootstrap.min.css">
+    <script src="/static/js/bootstrap.js"></script>
+    <script src="/static/js/add-button.js"></script>
+</head>
+<body>
+{# 导航栏 #}
+  <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+  <div class="container-fluid">
+    <span class="navbar-text" style="font-size: 30px; margin: -5px 10px -5px; color: white">
+        STCDB
+    </span>
+    <div class="collapse navbar-collapse dropdown" id="navbarNavDropdown">
+        <ul class="navbar-nav nav justify-content-end">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="/homepage" style="color: white">Home</a>
+        </li>
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle"
+               data-bs-toggle="dropdown"
+               href="#"
+               role="button"
+               aria-expanded="false"
+               style="color: white"
+            >Databases</a>
+            <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuButton1">
+              <li><a class="dropdown-item" href="/entitydb">Entity</a></li>
+              <li><a class="dropdown-item" href="/interactdb">Interactions</a></li>
+              <li><a class="dropdown-item" href="/pathwaydb">Pathways</a></li>
+              {# <li><hr class="dropdown-divider"></li> #}
+            </ul>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/align" style="color: white">Align</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/manual" style="color: white">Manual</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="https://bis.zju.edu.cn/binfo/" style="color: white">Our lab</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<form id='myForm' style="width: 800px; margin: 50px auto" method="post">
+      <div class="mb-3">
+        <label for="" class="form-label text-dark fs-3" style="margin: 0 0">Pathway Alignment</label>
+      </div>
+    {# 输入框 #}
+    <div id="container">
+        <label for="" class="form-label"></label>
+        <input type="text" class="form-control mb-3" placeholder="Input your pathway. Separate entities or stcodes with comma." name="pathway0">
+        <button id="else-button" type='button' class="btn btn-outline-info me-2" name="else">Align with custom pathway</button>
+        <button id="add-button" type='button' style="display:none;" class="btn btn-secondary btn-sm me-2">+</button>
+        <button id="remove-button" type='button' style="display:none;" class="btn btn-secondary btn-sm">-</button>
+    </div>
+    <br/>
+    <div class="row">
+        <button type="submit" class="btn btn-primary justify-content-end col-md-2" style="margin: auto">Align</button>
+    </div>
+
+</form>
+
+
+<div class="row-cols-md-6 text-center">
+</div>
+
+</body>
+</html>

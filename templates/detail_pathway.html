@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>pathway {{ res_pnum }}</title>
+    <link rel="stylesheet" href="static/css/bootstrap.css">
+    <script src="/static/js/bootstrap.js"></script>
+</head>
+<body>
+
+
+{# 导航栏 #}
+  <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+  <div class="container-fluid">
+    <span class="navbar-text" style="font-size: 30px; margin: -5px 10px -5px; color: white">
+        STCDB
+    </span>
+    <div class="collapse navbar-collapse dropdown" id="navbarNavDropdown">
+        <ul class="navbar-nav nav justify-content-end">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="/homepage" style="color: white">Home</a>
+        </li>
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle"
+               data-bs-toggle="dropdown"
+               href="#"
+               role="button"
+               aria-expanded="false"
+               style="color: white"
+            >Databases</a>
+            <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuButton1">
+              <li><a class="dropdown-item" href="/entitydb">Entity</a></li>
+              <li><a class="dropdown-item" href="/interactdb">Interactions</a></li>
+              <li><a class="dropdown-item" href="/pathwaydb">Pathways</a></li>
+              {# <li><hr class="dropdown-divider"></li> #}
+            </ul>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/align" style="color: white">Align</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/manual" style="color: white">Manual</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="https://bis.zju.edu.cn/binfo/" style="color: white">Our lab</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+{# 导航结束 #}
+
+<br><br/><br/><br/>
+{# detail #}
+<div class="row">
+    <div class="m-auto col-md-8"> {# m-auto是新版的居中办法hhh，搞了半天offset才发现 #}
+        <table class="table table-bordered border-primary table-hover">
+        {# detail of interaction #}
+            <thead class="table-primary fs-3">
+                <tr>
+                    <th colspan="2" class="text-center">Pathway {{ res_pnum }}</th>
+                </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td class="table-secondary text-end">Length</td>
+                <td>{{ res_detail.length }}</td>
+            </tr>
+            <tr>
+                <td class="table-secondary text-end">Pathway</td>
+                <td>
+                    【<a href="/entity_detail/{{ st_list[0].Stimulator }}">{{ st_list[0].Stimulator }}</a>】
+                    {% for st in st_list %}
+                    - <a href="/interaction_detail/{{ st.st_code }}">{{ st.st_code }}</a> ->
+                    【<a href="/entity_detail/{{ st.Acceptor }}">{{ st.Acceptor }}</a>】
+                    {% endfor %}
+
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+    </div>
+</div>
+
+</body>
+</html>

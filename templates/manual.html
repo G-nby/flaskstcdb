@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Manual</title>
+    <link rel="stylesheet" href="/static/css/bootstrap.min.css">
+    <script src="/static/js/bootstrap.js"></script>
+    <script src="/static/js/add-button.js"></script>
+    <style>
+        /* 样式化目录栏 */
+        .sidebar {
+            position: fixed;
+            top: 65px; /* 导航栏的高度 */
+            left: 0;
+            width: 200px;
+            height: calc(100% - 65px); /* 页面高度减去导航栏高度 */
+            background-color: #f0f0f0;
+            padding: 20px;
+            overflow-y: auto;
+            z-index: 999; /* 确保目录栏在导航栏下方 */
+        }
+
+        /* 样式化目录链接 */
+        .sidebar a {
+            display: block;
+            margin-bottom: 10px;
+            text-decoration: none;
+            color: #333;
+        }
+
+        /* 样式化活动链接 */
+        .sidebar a.active {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+{# 导航栏 #}
+  <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+  <div class="container-fluid">
+    <span class="navbar-text" style="font-size: 30px; margin: -5px 10px -5px; color: white">
+        STCDB
+    </span>
+    <div class="collapse navbar-collapse dropdown" id="navbarNavDropdown">
+        <ul class="navbar-nav nav justify-content-end">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="/homepage" style="color: white">Home</a>
+        </li>
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle"
+               data-bs-toggle="dropdown"
+               href="#"
+               role="button"
+               aria-expanded="false"
+               style="color: white"
+            >Databases</a>
+            <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuButton1">
+              <li><a class="dropdown-item" href="/entitydb">Entity</a></li>
+              <li><a class="dropdown-item" href="/interactdb">Interactions</a></li>
+              <li><a class="dropdown-item" href="/pathwaydb">Pathways</a></li>
+              {# <li><hr class="dropdown-divider"></li> #}
+            </ul>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/align" style="color: white">Align</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/manual" style="color: white">Manual</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="https://bis.zju.edu.cn/binfo/" style="color: white">Our lab</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<br/>
+<br/><br/><br/>
+
+{# manual正文 #}
+
+
+<div class="sidebar">
+    <a href="#section1">0.Introduction</a>
+    <a href="#section2">1.Search</a>
+    <a href="#section3">2.Align</a>
+    <a href="#section4">3.View the network</a>
+    <a href="#section5">4.Calculate the key factor</a>
+    <a href="#section6">5.Other</a>
+    <!-- 添加更多的分块链接 -->
+</div>
+
+<div style="margin-left: 220px; padding: 20px; margin-right: 65px;">
+    {# 0 introduction #}
+    <h2 id="section1">0.Introduction</h2>
+    <p>STCDB is an integrative database for cell signal transduction classification alignment.
+    Using this database platform, you can easily search, check and align the pathway that
+        you are interested in.</p>
+    <p>Here is a manual for your better experience on the platform.</p>
+    <br/><hr/>
+
+
+    {# 1.Search #}
+    <h2 id="section2">1.Search</h2>
+    <p>You can quickly use the quick search function on the homepage<br/></p>
+    <p>
+    You can decide in which field they want to search their interested content by choosing the rolldown tag
+        of the database on the left.
+    Result would be shown when you finishes inputing and clicks the search button.</p>
+    <div class="text-center col-10 offset-1">
+      <img src="{{ url_for('static', filename='images/' + img_quicksearch) }}"
+           class="img-thumbnail img-fluid rounded mx-auto d-block" alt="quicksearch">
+    </div>
+    <br/>
+    <p>
+        The result page provides links to the detail page of each entry.
+    And you can also access the particular page on the external linked database
+        by the link in the ID column</p>
+    <br/><hr/>
+
+
+    {# 2.Align #}
+    <h2 id="section3">2.Align</h2>
+    <p>Here you can get to know which pathways are more close based on the algorithm in our system.
+        you can choose to align their interested pathway with ones in our databases
+        or to align your interested pathway with your customed ones.</p>
+
+    <h5>2.1 Align target pathway with ones in the database</h5>
+    <p>
+    Input your pathway(entities of stcodes are all acceptable, separated with comma) and you can easily start to align.
+    This function would align your interested pathway with all pathways in our database.
+    <div class="text-center col-10 offset-1">
+      <img src="{{ url_for('static', filename='images/' + img_alignsingle) }}"
+           class="img-thumbnail img-fluid rounded mx-auto d-block" alt="alignsingle">
+    </div>
+    Align results would show from score high to low in the result page.</p>
+    <h5>2.2 Align with your own pathways.</h5>
+    <p>
+    You can input customed pathways when adding more input boxes.
+        This function would align your interested pathway with all other pathways given by yourself.
+    <div class="text-center col-10 offset-1">
+      <img src="{{ url_for('static', filename='images/' + img_alignmulti) }}"
+           class="img-thumbnail img-fluid rounded mx-auto d-block" alt="alignmulti">
+    </div>
+    Align results would show from score high to low in the result page.</p>
+    <br/><hr/>
+
+
+
+    <h2 id="section4">3.View the network</h2>
+    <p>
+        We provide fine visualization function to assist users to view their interested pathways in the form of a network.
+        The function can be accessed from both the result page of the align function and the result page of search in pathway tag.
+        you can view the result in network</p>
+        <div class="text-center col-8 offset-2">
+          <img src="{{ url_for('static', filename='images/' + img_alignresultcheck) }}"
+               class="img-thumbnail img-fluid rounded mx-auto d-block" alt="alignresultcheck">
+        </div>
+        <div class="text-center col-10 offset-1">
+          <img src="{{ url_for('static', filename='images/' + img_pathwaydbcheck) }}"
+               class="img-thumbnail img-fluid rounded mx-auto d-block" alt="pathwaydbcheck">
+        </div>
+    <br/>
+    <p>Just check the box in the list and you can view the chosen pathways in the following way.</p>
+        <div class="text-center col-6 offset-3">
+          <img src="{{ url_for('static', filename='images/' + img_network) }}"
+               class="img-thumbnail img-fluid rounded mx-auto d-block" alt="network">
+        </div>
+    <br/>
+    <p>You can interact with the network with your mouse to zoom in or out, move the position of the picture or particular node,
+        highlight the node you are interested and so on.</p>
+    <br/><hr/>
+
+
+
+    <h2 id="section5">4.Calculate the key factor in the network</h2>
+    <p>
+        When viewing many pathways in a network, it may be hard to recognize the key factor of the network.
+        So we provide users with a integrated tool to analyse the key factor of the network.</p>
+    <div class="text-center col-8 offset-2">
+      <img src="{{ url_for('static', filename='images/' + img_keyfactor) }}"
+           class="img-thumbnail img-fluid rounded mx-auto d-block" alt="keyfactor">
+    </div>
+    <br/>
+    <p>
+        Just start calculate by pressing the button, the key factor would be calculated and shown on the right.</p>
+    <br/><hr/>
+
+
+    <h2 id="section6">5.Other</h2>
+    <p>
+        Users can also access the whole database by the scrolldown tag on the navigation bar.</p>
+    <p>And you are welcomed to explore more useful databases and tools from <a href="https://bis.zju.edu.cn/binfo/">our lab website</a>. </p>
+    <!-- 添加更多的分块内容 -->
+</div>
+
+
+<script>
+    // 监听所有目录链接的点击事件
+    document.querySelectorAll('.sidebar a').forEach(function(link) {
+        // 当点击链接时执行滚动到对应目标的操作
+        link.addEventListener('click', function(event) {
+            event.preventDefault(); // 阻止默认的链接跳转行为
+
+            var targetId = this.getAttribute('href').substring(1); // 获取目标元素的 id
+            var targetElement = document.getElementById(targetId); // 获取目标元素
+
+            if (targetElement) {
+                var navbarHeight = 65; // 导航栏高度
+                var sectionTop = targetElement.offsetTop - navbarHeight - 20; // 计算目标位置
+
+                window.scrollTo({ top: sectionTop, behavior: 'smooth' }); // 平滑滚动到目标位置
+            }
+        });
+    });
+</script>
+</body>
+</html>

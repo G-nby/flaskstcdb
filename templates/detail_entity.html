@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ res_id }}</title>
+    <link rel="stylesheet" href="static/css/bootstrap.css">
+    <script src="/static/js/bootstrap.js"></script>
+</head>
+
+<body>
+{# 导航栏 #}
+  <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+  <div class="container-fluid">
+    <span class="navbar-text" style="font-size: 30px; margin: -5px 10px -5px; color: white">
+        STCDB
+    </span>
+    <div class="collapse navbar-collapse dropdown" id="navbarNavDropdown">
+        <ul class="navbar-nav nav justify-content-end">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="/homepage" style="color: white">Home</a>
+        </li>
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle"
+               data-bs-toggle="dropdown"
+               href="#"
+               role="button"
+               aria-expanded="false"
+               style="color: white"
+            >Databases</a>
+            <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuButton1">
+              <li><a class="dropdown-item" href="/entitydb">Entity</a></li>
+              <li><a class="dropdown-item" href="/interactdb">Interactions</a></li>
+              <li><a class="dropdown-item" href="/pathwaydb">Pathways</a></li>
+              {# <li><hr class="dropdown-divider"></li> #}
+            </ul>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/align" style="color: white">Align</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/manual" style="color: white">Manual</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="https://bis.zju.edu.cn/binfo/" style="color: white">Our lab</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<br><br/><br/><br/>
+{# detail #}
+<div class="row">
+    <div class="m-auto col-md-8"> {# m-auto是新版的居中办法hhh，搞了半天offset才发现 #}
+        <table class="table table-bordered border-primary table-hover">
+        {# name #}
+            <thead class="table-primary fs-3">
+                <tr>
+                    <th colspan="2" class="text-center">{{ res_detail.Name }}</th>
+                </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td class="table-secondary text-end">Full Name</td>
+                <td>{{ res_detail.Full_Name }}</td>
+            </tr>
+            <tr>
+                <td class="table-secondary text-end">kind</td>
+                <td>{{ res_detail.Kind }}</td>
+            </tr>
+            <tr>
+                <td class="table-secondary text-end">ID</td>
+                {% if res_detail.ID[0] != 'C' %}
+                <td><a href="https://www.uniprot.org/uniprotkb/{{ res_detail.ID }}/entry/">{{ res_detail.ID }}</a></td>
+                {% else %}
+                <td><a href="https://www.ebi.ac.uk/chembl/compound_report_card/{{ res_detail.ID }}/">{{ res_detail.ID }}</a></td>
+                {% endif %}
+            </tr>
+            </tbody>
+
+            {# interactions #}
+            <thead class="table-primary">
+                <tr>
+                    <th colspan="2">Interactions as stimulator</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for res_sti in res_assti %}
+                <tr>
+                    <td class="table-secondary col-md-2 text-end"><a href="/interaction_detail/{{ res_sti.st_code }}">{{ res_sti.st_code }}</a></td>
+                    <td><a href="/entity_detail/{{ res_sti.Stimulator }}">{{ res_sti.Stimulator }}</a>→<a href="/entity_detail/{{ res_sti.Acceptor }}">{{ res_sti.Acceptor}}</a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+
+            <thead>
+                <tr class="table-primary">
+                    <th colspan="2">Interactions as acceptor</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for res_acc in res_asacc %}
+                <tr>
+                    <td class="table-secondary col-md-2 text-end"><a href="/interaction_detail/{{ res_acc.st_code }}">{{ res_acc.st_code }}</a></td>
+                    <td><a href="/entity_detail/{{ res_acc.Stimulator }}">{{ res_acc.Stimulator }}</a>→<a href="/entity_detail/{{ res_acc.Acceptor }}">{{ res_acc.Acceptor}}</a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+    </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="static/css/bootstrap.css">
+    <script src="static/js/bootstrap.js"></script>
+</head>
+
+<body>
+{# 导航栏 #}
+  <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+  <div class="container-fluid">
+    <span class="navbar-text" style="font-size: 30px; margin: -5px 10px -5px; color: white">
+        STCDB
+    </span>
+    <div class="collapse navbar-collapse dropdown" id="navbarNavDropdown">
+        <ul class="navbar-nav nav justify-content-end">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="/homepage" style="color: white">Home</a>
+        </li>
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle"
+               data-bs-toggle="dropdown"
+               href="#"
+               role="button"
+               aria-expanded="false"
+               style="color: white"
+            >Databases</a>
+            <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuButton1">
+              <li><a class="dropdown-item" href="/entitydb">Entity</a></li>
+              <li><a class="dropdown-item" href="/interactdb">Interactions</a></li>
+              <li><a class="dropdown-item" href="/pathwaydb">Pathways</a></li>
+              {# <li><hr class="dropdown-divider"></li> #}
+            </ul>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/align" style="color: white">Align</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/manual" style="color: white">Manual</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="https://bis.zju.edu.cn/binfo/" style="color: white">Our lab</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+{# 导航结束 #}
+
+<br/><br/>
+{# 结果表格 #}
+<table class="table" style="width: 1000px; margin: 100px auto">
+  <thead>
+    <tr>
+      <th scope="col">Pathway number</th>
+      <th scope="col">Length</th>
+      <th scope="col">Pathway</th>
+      <th class="text-center"><button id="submitBtn" type="submit" class="btn btn-primary justify-content-end" style="margin: auto">View</button></th>
+    </tr>
+  </thead>
+  <tbody>
+   {% for resp in res_table %}
+    <tr class="pwresult" data-id='{{ resp.pathway }}'>
+      <th><a href="/pathway_detail/{{ resp.pathway_number }}">{{ resp.pathway_number }}</a></th>
+      <td>{{ resp.length }}</td>
+      <td>{{ resp.pathway }}</td>
+      <td class="text-center align-middle"><input type="checkbox" class="result-checkbox"></td>
+    </tr>
+   {% endfor %}
+  </tbody>
+</table>
+
+{# 结果表格结束 #}
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // 监听复选框的变化
+        var checkboxes = document.querySelectorAll('.result-checkbox');
+        var selectedResults = [];
+
+        checkboxes.forEach(function (checkbox) {
+            checkbox.addEventListener('change', function () {
+                var resultId = checkbox.closest('.pwresult').getAttribute('data-id');
+                if (checkbox.checked) {
+                    selectedResults.push(resultId);
+                    //console.log(resultId)
+                    //console.log(typeof(resultId))
+                } else {
+                    selectedResults = selectedResults.filter(function (id) {
+                        return id !== resultId;
+                    });
+                }
+            });
+        });
+
+        // 处理提交按钮点击事件
+        document.getElementById('submitBtn').addEventListener('click', function () {
+            // 构建URL并重定向到第二个页面
+            var url = '/view_pathway_1?selectedResults=' + selectedResults.join(',');
+            window.location.href = url;
+        });
+    })
+  </script>
+
+
+</body>
+</html>

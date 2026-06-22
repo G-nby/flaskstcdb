@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Align Result</title>
+    <link rel="stylesheet" href="static/css/bootstrap.min.css">
+    <script src="static/js/bootstrap.js"></script>
+    <script src="static/js/add-button.js"></script>
+    <script>
+        // 使用 JavaScript 生成递增数字并填充表格
+        document.addEventListener('DOMContentLoaded', function() {
+            var table = document.getElementById('myTable');
+            var startNumber = 1;
+
+            for (var i = 0; i < table.rows.length; i++) {
+                var cell = table.rows[i+2].insertCell(0);
+                cell.innerHTML = startNumber++;
+                cell.classList.add('text-center');
+                cell.classList.add('align-middle');
+            }
+        });
+    </script>
+</head>
+<body>
+{# 导航栏 #}
+  <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+  <div class="container-fluid">
+    <span class="navbar-text" style="font-size: 30px; margin: -5px 10px -5px; color: white">
+        STCDB
+    </span>
+    <div class="collapse navbar-collapse dropdown" id="navbarNavDropdown">
+        <ul class="navbar-nav nav justify-content-end">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="/homepage" style="color: white">Home</a>
+        </li>
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle"
+               data-bs-toggle="dropdown"
+               href="#"
+               role="button"
+               aria-expanded="false"
+               style="color: white"
+            >Databases</a>
+            <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuButton1">
+              <li><a class="dropdown-item" href="/entitydb">Entity</a></li>
+              <li><a class="dropdown-item" href="/interactdb">Interactions</a></li>
+              <li><a class="dropdown-item" href="/pathwaydb">Pathways</a></li>
+              {# <li><hr class="dropdown-divider"></li> #}
+            </ul>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/align" style="color: white">Align</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/manual" style="color: white">Manual</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="https://bis.zju.edu.cn/binfo/" style="color: white">Our lab</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<br/><br/><br/><br/>
+
+<div class="row">
+    <div class="m-auto col-md-8"> {# m-auto是新版的居中办法hhh，搞了半天offset才发现 #}
+        <table class="table table-bordered border-primary table-hover" id="myTable">
+        {# name #}
+            <thead class="table-primary fs-4">
+                <tr>
+                    <th class="text-center" colspan="4">Align Results  </th>
+                </tr>
+            </thead>
+            <thead class="table-secondary fs-6">
+                <tr>
+                    <th class="text-center">Order</th>
+                    <th class="text-center">Pathway</th>
+                    <th class="text-center">Score</th>
+                    <th class="text-center"><button id="submitBtn" type="submit" class="btn btn-primary justify-content-end" style="margin: auto">View</button></th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for sim in sim_result %}
+                <tr class="simresult" data-id='{{ sim.pw }}'>
+                    <td>
+                        【<a href="/entity_detail/{{ sim.pwcontent[0].Stimulator }}">{{ sim.pwcontent[0].Stimulator }}</a>】
+                        {% for pwc in sim.pwcontent %}
+                            - <a href="/interaction_detail/{{ pwc.st_code }}">{{ pwc.st_code }}</a> ->
+                            【<a href="/entity_detail/{{ pwc.Acceptor }}"> {{ pwc.Acceptor }}</a>】
+                        {% endfor %}
+                    </td>
+                    <td class="text-center align-middle">{{ sim.score }}</td>
+                    <td class="text-center align-middle"><input type="checkbox" class="result-checkbox"></td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // 监听复选框的变化
+        var checkboxes = document.querySelectorAll('.result-checkbox');
+        var selectedResults = [];
+
+        checkboxes.forEach(function (checkbox) {
+            checkbox.addEventListener('change', function () {
+                var resultId = checkbox.closest('.simresult').getAttribute('data-id');
+                if (checkbox.checked) {
+                    selectedResults.push(resultId);
+                    //console.log(resultId)
+                    //console.log(typeof(resultId))
+                } else {
+                    selectedResults = selectedResults.filter(function (id) {
+                        return id !== resultId;
+                    });
+                }
+            });
+        });
+
+        // 处理提交按钮点击事件
+        document.getElementById('submitBtn').addEventListener('click', function () {
+            // 构建URL并重定向到第二个页面
+            var url = '/view_pathway?selectedResults=' + selectedResults.join(',');
+            window.location.href = url;
+        });
+    })
+  </script>
+
+</body>
+</html>
